@@ -18,9 +18,6 @@
     "autoload": {
         "psr-4": {
             "Freemius\\": "freemius/"
-        },
-        "classmap": [
-            "freemius/php-sdk/freemius/"
-        ]
+        }
     }
 }
