@@ -25,4 +25,55 @@ If you need to access multiple products, use the `developer` scope. To get your 
   $api->Api("/plugins/{$first_plugin_id}.json", 'PUT', array(
     'title' => 'My New Title',
   ));
+
 ```
+## Using Freemius API in Laravel  
+
+To integrate **Freemius API** with Laravel, follow these steps:
+
+### 1. Install the SDK  
+
+If the SDK is not installed via Composer, add it manually:  
+
+```sh
+composer require freemius/php-sdk
+```
+### 2. Create a Laravel Controller
+
+Generate a new controller to handle Freemius API interactions:
+
+```sh
+php artisan make:controller FreemiusController
+```
+Now, open app/Http/Controllers/FreemiusController.php and modify it as follows:
+
+```php
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Freemius\Freemius_Api;
+
+class FreemiusController extends Controller
+{
+    protected $freemius;
+
+    public function __construct()
+    {
+        $this->freemius = new Freemius_Api(
+            env('FREEMIUS_API_SCOPE'),
+            env('FREEMIUS_API_ENTITY_ID'),
+            env('FREEMIUS_API_PUBLIC_KEY'),
+            env('FREEMIUS_API_SECRET_KEY')
+        );
+    }
+
+    public function getPlugins()
+    {
+        return response()->json($this->freemius->Api('/plugins.json'));
+    }
+}
+```
+
+# Autoloading & PSR-4 Support
+
+The SDK now follows PSR-4 autoloading for better compatibility with modern PHP applications.
